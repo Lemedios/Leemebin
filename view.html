@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Pastebin Lite - View</title>
+</head>
+<body>
+  <h1>Pastebin風 - 表示</h1>
+  <p>URLにあるID: <span id="fileId"></span></p>
+  <p>対応するファイルを選択してください：</p>
+  <input type="file" id="fileInput" onchange="loadFile()" />
+  <pre id="output"></pre>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    document.getElementById("fileId").textContent = id || "(未指定)";
+
+    function loadFile() {
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        document.getElementById("output").textContent = reader.result;
+      };
+      reader.readAsText(file);
+    }
+  </script>
+</body>
+</html>
